@@ -6,11 +6,11 @@ export STORE_PATH=${PWD}/zero_to_asic_vm
 # Name of the virtual machine OS
 export NAME=ubuntu
 # PAth of the ISO file
-export ISO=/home/diego/Downloads/ubuntu-20.10-desktop-amd64.iso
+export ISO=/home/diego/Downloads/ubuntu-20.04.2.0-desktop-amd64.iso
 # Size of the RAM in GB
 export RAM_SIZE=4
 # Size of the HDD in GB
-export HDD_SIZE=8
+export HDD_SIZE=16
 # Number of CPUs
 export N_CPU=2
 
@@ -32,6 +32,23 @@ VBoxManage storageattach $NAME --storagectl SATA --port 0 --type hdd --medium $S
 # Prepare boot from ISO
 echo "[- Message -] Attaching ISO DVD $ISO"
 VBoxManage storageattach $NAME --storagectl IDE --device 0 --port 0 --type dvddrive --medium $ISO
+# Creating a port forwarding for SSH connection
+echo "[- Message -] Enabling ssh port forwarding"
+VBoxManage modifyvm "ubuntu" --natpf1 "SSH,tcp,127.0.0.1,2522,10.0.2.15,22"
 # Launch
 echo "[- Message -] Launching virtual machine $NAME"
-VBoxManage startvm $NAME --type gui
+VBoxManage unattended install $NAME --iso=$ISO --user=zerotoasic --password=12345  --script-template=/usr/lib/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg --post-install-template=/usr/lib/virtualbox/UnattendedTemplates/debian_postinstall.sh --install-additions --time-zone=CET --hostname=zerotoasic.vm.com --start-vm=gui
+#VBoxManage startvm $NAME --type gui
+
+# Copy the tools script to the VM, first install SSH
+echo "[- Message -] Installing ssh in $NAME"
+VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/apt-get" --username root --password 12345  --wait-stdout -- apt/arg0 install -y ssh
+# Now copy the script
+echo "[- Message -] Copying the script to $NAME"
+scp -P 2522 ./install_tools.sh ./fix_sudo.sh zerotoasic@127.0.0.1:/home/zerotoasic
+# Give permissions to the script
+VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/chmod" --username zerotoasic --password 12345  --wait-stdout -- chmod/arg0 a+x /home/zerotoasic/install_tools.sh /home/zerotoasic/fix_sudo.sh
+# Run script
+echo "[- Message -] Installing tools"
+VBoxManage --nologo guestcontrol $NAME run --exe "/home/zerotoasic/fix_sudo.sh" --username root --password 12345 --wait-stdout
+VBoxManage --nologo guestcontrol $NAME run --exe "/home/zerotoasic/install_tools.sh" --username zerotoasic --password 12345 --wait-stdout
