@@ -42,7 +42,7 @@ VBoxManage unattended install $NAME --iso=$ISO --user=zerotoasic --password=1234
 
 # Wait
 echo "[-- Message --] PLEASE WAIT"
-sleep 10m
+sleep 20m
 # Copy the tools script to the VM, first install SSH
 echo "[- Message -] Installing ssh in $NAME"
 VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/apt-get" --username root --password 12345  --wait-stdout -- apt/arg0 install -y ssh

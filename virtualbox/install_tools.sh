@@ -2,6 +2,7 @@
 # Install VirtualBox additions
 echo 12345 | sudo -S apt-get update
 echo 12345 | sudo -S apt-get -y install dkms build-essential linux-headers-$(uname -r) autoconf make bison flex gperf libreadline-dev libncurses5-dev docker.io
+echo 12345 | sudo -S apt-get -y install virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-dkms
 
 # Now the tools
 export TOOLS_ROOT="/home/$(whoami)/asic_tools"
