@@ -40,6 +40,9 @@ echo "[- Message -] Launching virtual machine $NAME"
 VBoxManage unattended install $NAME --iso=$ISO --user=zerotoasic --password=12345  --script-template=/usr/lib/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg --post-install-template=/usr/lib/virtualbox/UnattendedTemplates/debian_postinstall.sh --install-additions --time-zone=CET --hostname=zerotoasic.vm.com --start-vm=gui
 #VBoxManage startvm $NAME --type gui
 
+# Wait
+echo "[-- Message --] PLEASE WAIT"
+sleep 10m
 # Copy the tools script to the VM, first install SSH
 echo "[- Message -] Installing ssh in $NAME"
 VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/apt-get" --username root --password 12345  --wait-stdout -- apt/arg0 install -y ssh

@@ -18,9 +18,9 @@ mkdir $TOOLS_ROOT
 
 # OpenLANE stuff
 # first docker
-echo 12345 | sudo -S groupadd docker
-sudo usermod -aG docker zerotoasic
-newgrp docker
+#echo 12345 | sudo -S groupadd docker
+echo 12345 | sudo -S usermod -aG docker zerotoasic
+newgrp docker << END
 
 git clone https://github.com/efabless/openlane.git --branch rc6 $OPENLANE_SRC
 cd $OPENLANE_SRC
@@ -80,4 +80,4 @@ wget -P $RISCV_GCC https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-g
 cd $RISCV_GCC
 tar -xf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
 echo "export PATH=\$PATH:\$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin" >> ~/.bashrc && ~/.bashrc && bash
-
+END
