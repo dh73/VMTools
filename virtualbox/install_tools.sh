@@ -74,11 +74,11 @@ echo 12345 | sudo -S apt install gtkwave
 wget -P $FPGA_ROOT $FPGA_VER
 cd $FPGA_ROOT
 tar -xf fpga-toolchain-linux_x86_64-nightly-20210101.tar.xz
-echo "export PATH=\$PATH:\$FPGA_ROOT/fpga-toolchain/bin" >> ~/.bashrc && ~/.bashrc && bash
+echo "export PATH=\$PATH:\$FPGA_ROOT/fpga-toolchain/bin" >> ~/.bashrc && . ~/.bashrc && bash
 
 # Lastly, SiFive
 wget -P $RISCV_GCC https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz 
 cd $RISCV_GCC
 tar -xf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
-echo "export PATH=\$PATH:\$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin" >> ~/.bashrc && ~/.bashrc && bash
+echo "export PATH=\$PATH:\$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin" >> ~/.bashrc && . ~/.bashrc && bash
 END
