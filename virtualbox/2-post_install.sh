@@ -11,4 +11,4 @@ VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/chmod" --username zer
 # Run script
 echo "[- Message -] Installing tools"
 VBoxManage --nologo guestcontrol $NAME run --exe "/home/zerotoasic/fix_sudo.sh" --username root --password 12345 --wait-stdout
-VBoxManage --nologo guestcontrol $NAME run --exe "/home/zerotoasic/install_tools.sh" --username zerotoasic --password 12345 --wait-stdout
+VBoxManage --nologo guestcontrol $NAME run --exe "/usr/bin/sh" --username zerotoasic --password 12345 --wait-stdout -- source/arg0 /home/zerotoasic/install_tools.sh source/arg1 |tee install.log

@@ -1,8 +1,8 @@
 #!/bin/env bash
 # Install VirtualBox additions
 echo 12345 | sudo -S apt-get update
-echo 12345 | sudo -S apt-get -y install dkms build-essential linux-headers-$(uname -r) autoconf make bison flex gperf libreadline-dev libncurses5-dev docker.io
-echo 12345 | sudo -S apt-get -y install virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-dkms
+echo 12345 | sudo -S apt-get -y install dkms build-essential linux-headers-$(uname -r) autoconf make bison flex gperf libreadline-dev libncurses5-dev docker.io -o Dpkg::Options::=--force-confnew 
+echo 12345 | sudo -S apt-get -y install virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-dkms -o Dpkg::Options::=--force-confnew 
 
 # Now the tools
 export TOOLS_ROOT="/home/$(whoami)/asic_tools"
@@ -10,7 +10,7 @@ export MAGIC_ROOT="$TOOLS_ROOT/magic"
 export IVERILOG_ROOT="$TOOLS_ROOT/iverilog"
 export FPGA_VER="https://github.com/YosysHQ/fpga-toolchain/releases/download/nightly-20210101/fpga-toolchain-linux_x86_64-nightly-20210101.tar.xz"
 export FPGA_ROOT="$TOOLS_ROOT/yosys_nightly"
-export RISCV_GCC="TOOLS_ROOT/riscv-gcc"
+export RISCV_GCC="$TOOLS_ROOT/riscv-gcc"
 export OPENLANE_SRC="$TOOLS_ROOT/openlane_rc6"
 export PDK_ROOT="$TOOLS_ROOT/PDK"
 
@@ -22,13 +22,6 @@ mkdir $TOOLS_ROOT
 #echo 12345 | sudo -S groupadd docker
 echo 12345 | sudo -S usermod -aG docker zerotoasic
 newgrp docker << END
-
-git clone https://github.com/efabless/openlane.git --branch rc6 $OPENLANE_SRC
-cd $OPENLANE_SRC
-make -j$(nproc) openlane
-make -j$(nproc) pdk
-make -j$(nproc) test
-make -j$(nproc) regression_test
 
 # Prepare and clone magic
 echo "[-- Message --] Installing required packages for magic"
@@ -74,11 +67,21 @@ echo 12345 | sudo -S apt install gtkwave
 wget -P $FPGA_ROOT $FPGA_VER
 cd $FPGA_ROOT
 tar -xf fpga-toolchain-linux_x86_64-nightly-20210101.tar.xz
-echo "export PATH=\$PATH:\$FPGA_ROOT/fpga-toolchain/bin" >> ~/.bashrc && . ~/.bashrc && bash
+echo 'export PATH=$PATH:$FPGA_ROOT/fpga-toolchain/bin' >> ~/.bashrc && . ~/.bashrc
 
 # Lastly, SiFive
 wget -P $RISCV_GCC https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz 
 cd $RISCV_GCC
 tar -xf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
-echo "export PATH=\$PATH:\$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin" >> ~/.bashrc && . ~/.bashrc && bash
+echo 'export PATH=$PATH:$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin' >> ~/.bashrc && . ~/.bashrc
+
+# Adding Openlane to the end, bc this is so badly managed that breaks and blocks the entire build flow for no reason
+git clone https://github.com/efabless/openlane.git --branch rc6 $OPENLANE_SRC
+cd $OPENLANE_SRC
+sed -i 's/\-it/\-i/g' Makefile
+make openlane
+make pdk
+make test
+make regression_test
+
 END
