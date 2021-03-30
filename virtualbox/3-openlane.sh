@@ -1,3 +1,2 @@
 echo "[- Message -] Installing OpenLANE ..."
-export NAME=ubuntu
-VBoxManage --nologo guestcontrol $NAME run --exe "/home/zerotoasic/openlane_wrapper.sh" --username zerotoasic --password 12345 --wait-stdout
+ssh -p 2522 -XY zerotoasic@127.0.0.1 'chmod a+x /home/$USER/openlane.sh && exec sh /home/$USER/openlane.sh'
