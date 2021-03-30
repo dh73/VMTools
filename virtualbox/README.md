@@ -1,5 +1,13 @@
 # VirtualBox Script for Ubuntu Unattended Install
 ## Instructions
+Dependin on the OS, you'll need to set the following variables to point to a correct path
+```bash
+# Templates for unattended install
+export PRE=/usr/lib64/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg
+export POST=/usr/lib64/virtualbox/UnattendedTemplates/debian_postinstall.sh
+export ADDITIONS_PATH=/home/diego/Downloads/VBoxGuestAdditions_6.1.18.iso
+```
+
 First launch `1-create_vm.sh`
 ```bash
 ./1-create_vm.sh
@@ -8,6 +16,11 @@ First launch `1-create_vm.sh`
 When this process is finished, launch `2-post_install.sh`
 ```bash
 ./2-post_install.sh
+```
+
+Then, run openlane script
+```bash
+./3-openlane.sh
 ```
 
 ## Editing VM Hardware Requirements

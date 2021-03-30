@@ -14,6 +14,11 @@ export HDD_SIZE=24
 # Number of CPUs
 export N_CPU=2
 
+# Templates for unattended install
+export PRE=/usr/lib64/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg
+export POST=/usr/lib64/virtualbox/UnattendedTemplates/debian_postinstall.sh
+export ADDITIONS_PATH=/home/diego/Downloads/VBoxGuestAdditions_6.1.18.iso
+
 echo "[- Message -]: Creating a VM with name $NAME and path $STORE_PATH"
 # --register will enable the VM in the VirtualBox GUI
 # --default will create the machine with minimal config for
@@ -37,4 +42,4 @@ echo "[- Message -] Enabling ssh port forwarding"
 VBoxManage modifyvm "ubuntu" --natpf1 "SSH,tcp,127.0.0.1,2522,10.0.2.15,22"
 # Launch
 echo "[- Message -] Launching virtual machine $NAME"
-VBoxManage unattended install $NAME --iso=$ISO --user=zerotoasic --password=12345  --script-template=/usr/lib/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg --post-install-template=/usr/lib/virtualbox/UnattendedTemplates/debian_postinstall.sh --install-additions --time-zone=CET --hostname=zerotoasic.vm.com --start-vm=gui
+VBoxManage unattended install $NAME --iso=$ISO --user=zerotoasic --password=12345  --install-additions --additions-iso=$ADDITIONS_PATH --script-template=$PRE --post-install-template=$POST --time-zone=CET --hostname=zerotoasic.vm.com --start-vm=gui
