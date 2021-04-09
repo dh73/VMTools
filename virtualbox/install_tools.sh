@@ -8,6 +8,9 @@ export FPGA_VER="https://github.com/YosysHQ/fpga-toolchain/releases/download/nig
 export FPGA_ROOT="$TOOLS_ROOT/yosys_nightly"
 export RISCV_GCC="$TOOLS_ROOT/riscv-gcc"
 
+# some extra packages
+echo 12345 | sudo -S apt-get -y install xdot vim
+
 # Create directory
 mkdir $TOOLS_ROOT
 
@@ -46,12 +49,16 @@ cd $RISCV_GCC
 tar -xf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
 echo 'export PATH=$PATH:$RISCV_GCC/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin' >> ~/.bashrc
 
-## Installing everything
+## adding stuff to bashrc
 echo 'export TOOLS_ROOT="/home/$(whoami)/asic_tools"' >> ~/.bashrc
 echo 'export RISCV_GCC="$TOOLS_ROOT/riscv-gcc"' >> ~/.bashrc
 echo 'export FPGA_ROOT="$TOOLS_ROOT/yosys_nightly"' >> ~/.bashrc
 echo 'export PDK_ROOT="$TOOLS_ROOT/PDK"' >> ~/.bashrc
+echo 'export PDKPATH=$PDK_ROOT/sky130A' >> ~/.bashrc
 echo 'export OPENLANE_ROOT="$TOOLS_ROOT/openlane_rc6"' >> ~/.bashrc
+
+alias start_openlane="cd $OPENLANE_ROOT; docker run -it -v $OPENLANE_ROOT:/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) openlane:rc6"
+
 
 cd $MAGIC_ROOT
 echo "[-- Message --] Installing magic"
