@@ -30,7 +30,7 @@ echo "[- Message -] Modifying the hardware RAM with $RAM_SIZE GB and $N_CPU CPUs
 VBoxManage modifyvm $NAME --memory $((RAM_SIZE * 1024)) --cpus $N_CPU
 # and the hdd
 echo "[- Message -] Creating an HDD of size $HDD_SIZE GB stored in $STORE_PATH/$NAME.vdi"
-VBoxManage createmedium disk --filename "$STORE_PATH/$NAME.vdi" --size $((HDD_SIZE*1024)) --format VDI --variant Fixed
+VBoxManage createmedium disk --filename "$STORE_PATH/$NAME.vdi" --size $((HDD_SIZE*1024)) --format VDI --variant Standard
 # connect the HDD to the created VM
 echo "[- Message -] Attaching the virtual HDD $NAME.vdi to the VM $NAME"
 VBoxManage storageattach $NAME --storagectl SATA --port 0 --type hdd --medium $STORE_PATH/$NAME.vdi
