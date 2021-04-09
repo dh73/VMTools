@@ -57,7 +57,7 @@ echo 'export PDK_ROOT="$TOOLS_ROOT/PDK"' >> ~/.bashrc
 echo 'export PDKPATH=$PDK_ROOT/sky130A' >> ~/.bashrc
 echo 'export OPENLANE_ROOT="$TOOLS_ROOT/openlane_rc6"' >> ~/.bashrc
 
-alias start_openlane="cd $OPENLANE_ROOT; docker run -it -v $OPENLANE_ROOT:/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) openlane:rc6"
+echo 'alias start_openlane="cd $OPENLANE_ROOT; docker run -it -v $OPENLANE_ROOT:/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) openlane:rc6"' >> ~/.bashrc
 
 
 cd $MAGIC_ROOT
