@@ -6,18 +6,18 @@ export STORE_PATH=${PWD}/zero_to_asic_vm
 # Name of the virtual machine OS
 export NAME=ubuntu
 # PAth of the ISO file
-export ISO=/home/diego/Downloads/ubuntu-20.04.2.0-desktop-amd64.iso
+export ISO=~/Downloads/ubuntu-20.04.2.0-desktop-amd64.iso
 # Size of the RAM in GB
 export RAM_SIZE=4
 # Size of the HDD in GB
-export HDD_SIZE=24
+export HDD_SIZE=30
 # Number of CPUs
 export N_CPU=2
 
 # Templates for unattended install
-export PRE=/usr/lib64/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg
-export POST=/usr/lib64/virtualbox/UnattendedTemplates/debian_postinstall.sh
-export ADDITIONS_PATH=/home/diego/Downloads/VBoxGuestAdditions_6.1.18.iso
+export PRE=/usr/share/virtualbox/UnattendedTemplates/ubuntu_preseed.cfg
+export POST=/usr/share/virtualbox/UnattendedTemplates/debian_postinstall.sh
+export ADDITIONS_PATH=/usr/share/virtualbox/VBoxGuestAdditions.iso
 
 echo "[- Message -]: Creating a VM with name $NAME and path $STORE_PATH"
 # --register will enable the VM in the VirtualBox GUI
