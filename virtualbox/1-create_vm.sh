@@ -10,7 +10,7 @@ export ISO=/home/diego/Downloads/ubuntu-20.04.2.0-desktop-amd64.iso
 # Size of the RAM in GB
 export RAM_SIZE=4
 # Size of the HDD in GB
-export HDD_SIZE=24
+export HDD_SIZE=30
 # Number of CPUs
 export N_CPU=2
 
