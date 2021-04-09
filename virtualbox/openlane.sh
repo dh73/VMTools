@@ -9,4 +9,4 @@ sed -i 's/\-it/\-i/g' Makefile
 make openlane
 make pdk
 make test
-make regression_test
+#make regression_test
